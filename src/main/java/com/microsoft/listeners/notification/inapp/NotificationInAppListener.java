@@ -14,7 +14,7 @@ public class NotificationInAppListener {
             @KafkaTrigger(name = "NotificationInAppTrigger",
                     topic = "notification_event_inapp_topic",
                     brokerList = "BrokerList",
-                    username = "$ConnectionString",
+                    username = "KafkaUserName",
                     password = "%KafkaPassword%",
                     authenticationMode = BrokerAuthenticationMode.PLAIN,
                     protocol = BrokerProtocol.SASLSSL,
