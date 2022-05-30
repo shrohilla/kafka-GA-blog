@@ -28,6 +28,11 @@ The scope of this application is to run the simple app in which the below functi
       3. In-App -- in-app listener notification
 In the above description the listeners are kafka trigger functions
 
+**Pre-requisite** :-
+ 1. Customer should have the broker on managed cloud
+ 2. Customer should write using the producer code in producer-package
+ 3. While writing in configured topic, schema registry should be up for that please run the docker-compose
+
 The detailed description in below diagram :-
 
 ![alt text](img/blog.png)
