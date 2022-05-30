@@ -18,8 +18,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <checkstyle.suppressions.location>checkstyle/suppressions.xml</checkstyle.suppressions.location>
-    <schemaRegistryUrl>http://localhost:8081</schemaRegistryUrl>
-    <schemaRegistryBasicAuthUserInfo></schemaRegistryBasicAuthUserInfo>
     <io.confluent.schema-registry.version>7.0.1</io.confluent.schema-registry.version>
 
     <azure.functions.maven.plugin.version>1.18.0</azure.functions.maven.plugin.version>

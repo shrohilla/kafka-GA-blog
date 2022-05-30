@@ -31,6 +31,9 @@ public class WalletProducer {
     private static final String SCHEMA_REGISTRY_URL = "schema.registry.url";
     private static final String JAAS_CONFIG = "sasl.jaas.config";
     private static final String CONFIG_FILE_NAME = "producer-config.properties";
+    private static final String BASIC_AUTH_CRED_SOURCE = "USER_INFO";
+    private static final String BASIC_AUTH_CRED_SOURCE_KEY = "basic.auth.credentials.source";
+    private static final String BASIC_AUTH_USER_INFO  = "basic.auth.user.info";
 
     public static void main(final String[] args) throws IOException {
         Logger logger = Logger.getLogger(WalletProducer.class.getName());
@@ -38,6 +41,10 @@ public class WalletProducer {
 
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, prop.getProperty(BOOTSTRAP_SERVER));
         props.put(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, prop.getProperty(SCHEMA_REGISTRY_URL));
+        if(prop.getProperty(BASIC_AUTH_USER_INFO) != null) {
+            props.put(BASIC_AUTH_CRED_SOURCE_KEY, BASIC_AUTH_CRED_SOURCE);
+            props.put(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_USER_INFO_CONFIG, prop.getProperty(BASIC_AUTH_USER_INFO));
+        }
         props.put("security.protocol", "SASL_SSL");
         props.put("sasl.mechanism", "PLAIN");
         props.put("sasl.jaas.config", prop.getProperty(JAAS_CONFIG));
