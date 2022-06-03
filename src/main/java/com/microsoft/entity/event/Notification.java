@@ -9,6 +9,35 @@ public class Notification implements Serializable {
     private String eventCode;
     private String emailId;
     private String mobileNum;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getEventCode() {
+        return eventCode;
+    }
+
+    public String getEmailId() {
+        return emailId;
+    }
+
+    public String getMobileNum() {
+        return mobileNum;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public Map<String, Object> getTemplateMappingData() {
+        return templateMappingData;
+    }
+
     private String customerId;
     private Map<String, Object> templateMappingData;
 

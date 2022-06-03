@@ -12,6 +12,7 @@ import com.microsoft.entity.type.NotificationType;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 public class WalletNotificationResponseConverter implements ResponseConverter<WalletTransaction, KafkaEntity> {
 
@@ -19,6 +20,7 @@ public class WalletNotificationResponseConverter implements ResponseConverter<Wa
 
     @Override
     public KafkaEntity convert(WalletTransaction walletTxn) throws JsonProcessingException {
+        Logger logger = Logger.getLogger(WalletNotificationResponseConverter.class.getName());
         Notification notification = new Notification.NotificationEventBuilder().
                 setEventCode("101").setCustomerId(walletTxn.getCustomerId()).setEmailId("*****@microsoft.com")
                 .setMobileNum("+91-0445454").setType(NotificationType.ALL.toString())
@@ -28,6 +30,9 @@ public class WalletNotificationResponseConverter implements ResponseConverter<Wa
         headerArr[1] = new Header(Constant.NOTIFICATION_HEADER_KEY, NotificationType.SMS.toString());
         headerArr[2] = new Header(Constant.NOTIFICATION_HEADER_KEY, NotificationType.INAPP.toString());
 
+        logger.info("start");
+        logger.info(mapper.writeValueAsString(notification));
+        logger.info("end");
         return new KafkaEntity.KafkaEntityBuilder().setOffset(0)
                 .setHeaders(headerArr).setPartition(0).setTimestamp(LocalDateTime.now().toString())
                 .setValue(mapper.writeValueAsString(notification)).setTopic("notification_event_topic")
