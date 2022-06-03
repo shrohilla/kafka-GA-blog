@@ -12,6 +12,7 @@ import com.microsoft.entity.type.NotificationType;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class WalletNotificationResponseConverter implements ResponseConverter<WalletTransaction, KafkaEntity> {
@@ -24,7 +25,7 @@ public class WalletNotificationResponseConverter implements ResponseConverter<Wa
         Notification notification = new Notification.NotificationEventBuilder().
                 setEventCode("101").setCustomerId(walletTxn.getCustomerId()).setEmailId("*****@microsoft.com")
                 .setMobileNum("+91-0445454").setType(NotificationType.ALL.toString())
-                .setTemplateMappingData(new HashMap<String, Object>()).build();
+                .setTemplateMappingData(buildTemplateData(walletTxn)).build();
         Header[] headerArr = new Header[3];
         headerArr[0] = new Header(Constant.NOTIFICATION_HEADER_KEY, NotificationType.EMAIL.toString());
         headerArr[1] = new Header(Constant.NOTIFICATION_HEADER_KEY, NotificationType.SMS.toString());
@@ -37,5 +38,15 @@ public class WalletNotificationResponseConverter implements ResponseConverter<Wa
                 .setHeaders(headerArr).setPartition(0).setTimestamp(LocalDateTime.now().toString())
                 .setValue(mapper.writeValueAsString(notification)).setTopic("notification_event_topic")
                 .build();
+    }
+
+    private Map<String, Object> buildTemplateData(WalletTransaction walletTxn) {
+        Map<String, Object> templateDataMap = new HashMap<>();
+        templateDataMap.putIfAbsent("id", walletTxn.getId());
+        templateDataMap.putIfAbsent("amount", walletTxn.getAmount());
+        templateDataMap.putIfAbsent("currency", walletTxn.getCurrency());
+        templateDataMap.putIfAbsent("txn fee", walletTxn.getFee());
+        templateDataMap.putIfAbsent("processed at", walletTxn.getProcessedAt());
+        return templateDataMap;
     }
 }
